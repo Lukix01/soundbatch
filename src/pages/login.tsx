@@ -1,4 +1,4 @@
-import Login from '../components/login/Index';
+import Login from '../components/auth/Login';
 
 export default function LoginPage(): JSX.Element {
   return (

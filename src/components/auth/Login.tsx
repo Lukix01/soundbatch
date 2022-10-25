@@ -9,7 +9,7 @@ function UnlockIcon(): JSX.Element {
 
 export default function Login(): JSX.Element {
   return (
-    <div className="bg-white m-auto rounded-xl p-12 shadow">
+    <div className="bg-white m-auto rounded-xl p-12 shadow w-96">
       <div className=''>
         <div className='space-y-4'>
           <Input name="Login"/>
