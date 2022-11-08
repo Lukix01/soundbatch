@@ -1,4 +1,8 @@
+import axios from 'axios';
 import Link from 'next/link';
+import { NextRouter, useRouter } from 'next/router';
+import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import Input from './Input';
 
 function UnlockIcon(): JSX.Element {
@@ -9,12 +13,35 @@ function UnlockIcon(): JSX.Element {
 }
 
 export default function Login(): JSX.Element {
+  const [ cookies, setCookie ] = useCookies([ 'session' ]);
+  const [ username, setUsername ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+  const router: NextRouter = useRouter();
+
+  const SignIn: (event: any) => Promise<void> = async (event: any): Promise<void> => {
+    event.preventDefault();
+    if (username && password) {
+      try {
+        const response = await axios.get('/api/accounts', {
+          params: {
+            username,
+            password,
+          },
+        });
+        setCookie('session', { username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName }, { path: '/' });
+        router.push('/');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="bg-white m-auto rounded-xl p-12 shadow w-96">
-      <div className=''>
+      <form onSubmit={SignIn}>
         <div className='space-y-4'>
-          <Input name="Login"/>
-          <Input name="Password" type="password" />
+          <Input name="Username" value={username} onchange={(event: any): void => setUsername(event.target.value)}/>
+          <Input name="Password" type="password" value={password} onchange={(event: any): void => setPassword(event.target.value)} />
         </div>
         <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
           <div className='flex m-auto'>
@@ -27,7 +54,7 @@ export default function Login(): JSX.Element {
             <span className='font-bold group-hover:underline underline-offset-4'> create a new account</span>
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
