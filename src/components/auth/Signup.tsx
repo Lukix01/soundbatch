@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Input from './Input';
 
 function SignupIcon(): JSX.Element {
@@ -12,22 +13,26 @@ export default function Signup(): JSX.Element {
   return (
     <div className="bg-white m-auto rounded-xl p-12 shadow w-96">
       <div>
-        <div className='flex space-x-4 mb-4'>
-          <Input name="First name" />
-          <Input name="Last name" />
-        </div>
-        <div className='space-y-4'>
-          <Input name="Login"/>
-          <Input name="Password" type="password" />
-        </div>
-        <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
-          <div className='flex m-auto'>
-            <SignupIcon />
-            <div className='ml-2'>Sign Up</div>
+        <form>
+          <div className='flex space-x-4 mb-4'>
+            <Input name="First name" />
+            <Input name="Last name" />
           </div>
-        </button>
+          <div className='space-y-4'>
+            <Input name="Username" />
+            <Input name="Password" type="password"/>
+          </div>
+          <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
+            <div className='flex m-auto'>
+              <SignupIcon />
+              <div className='ml-2'>Sign Up</div>
+            </div>
+          </button>
+        </form>
         <div className='text-sm m-auto mt-2 text-gray-500 group cursor-pointer w-max'>Or
-          <span className='font-bold group-hover:underline underline-offset-4'> login to an existing account</span>
+          <Link href="/login">
+            <span className='font-bold group-hover:underline underline-offset-4'> login to an existing account</span>
+          </Link>
         </div>
       </div>
     </div>
