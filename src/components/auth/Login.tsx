@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Input from './Input';
 
 function UnlockIcon(): JSX.Element {
@@ -22,7 +23,9 @@ export default function Login(): JSX.Element {
           </div>
         </button>
         <div className='text-sm m-auto mt-2 text-gray-500 group cursor-pointer w-max'>Or
-          <span className='font-bold group-hover:underline underline-offset-4'> create a new account</span>
+          <Link href="/signup">
+            <span className='font-bold group-hover:underline underline-offset-4'> create a new account</span>
+          </Link>
         </div>
       </div>
     </div>
