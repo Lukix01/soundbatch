@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
 import Input from './Input';
 
@@ -10,17 +12,39 @@ function SignupIcon(): JSX.Element {
 }
 
 export default function Signup(): JSX.Element {
+  const [ firstName, setFirstName ] = useState<string>('');
+  const [ lastName, setLastName ] = useState<string>('');
+  const [ username, setUsername ] = useState<string>('');
+  const [ password, setPassword ] = useState<string>('');
+
+  const Register: (event: any) => Promise<void> = async (event: any): Promise<void> => {
+    event.preventDefault();
+
+    if (firstName && lastName && username && password) {
+      try {
+        await axios.post('/api/accounts', {
+          firstName,
+          lastName,
+          username,
+          password,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="bg-white m-auto rounded-xl p-12 shadow w-96">
       <div>
-        <form>
+        <form onSubmit={Register}>
           <div className='flex space-x-4 mb-4'>
-            <Input name="First name" />
-            <Input name="Last name" />
+            <Input name="First name" value={firstName} onchange={(event: any): void => setFirstName(event.target.value)}/>
+            <Input name="Last name" value={lastName} onchange={(event: any): void => setLastName(event.target.value)} />
           </div>
           <div className='space-y-4'>
-            <Input name="Username" />
-            <Input name="Password" type="password"/>
+            <Input name="Username" value={username} onchange={(event: any): void => setUsername(event.target.value)}/>
+            <Input name="Password" type="password" value={password} onchange={(event: any): void => setPassword(event.target.value)}/>
           </div>
           <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
             <div className='flex m-auto'>
