@@ -16,6 +16,8 @@ export default function Login(): JSX.Element {
   const [ cookies, setCookie ] = useCookies([ 'session' ]);
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
+  const [ loginError, setLoginError ] = useState(false);
+
   const router: NextRouter = useRouter();
 
   const SignIn: (event: any) => Promise<void> = async (event: any): Promise<void> => {
@@ -31,6 +33,7 @@ export default function Login(): JSX.Element {
         setCookie('session', { username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName }, { path: '/' });
         router.push('/');
       } catch (error) {
+        setLoginError(true);
         console.error(error);
       }
     }
@@ -43,6 +46,7 @@ export default function Login(): JSX.Element {
           <Input name="Username" value={username} onchange={(event: any): void => setUsername(event.target.value)}/>
           <Input name="Password" type="password" value={password} onchange={(event: any): void => setPassword(event.target.value)} />
         </div>
+        {loginError && <div className='text-red-500 text-sm mt-1'>Incorrect username or password.</div> }
         <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
           <div className='flex m-auto'>
             <UnlockIcon />
