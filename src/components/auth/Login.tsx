@@ -31,7 +31,7 @@ export default function Login(): JSX.Element {
           },
         });
         setCookie('session', { username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName }, { path: '/' });
-        router.push('/');
+        router.push('/library');
       } catch (error) {
         setLoginError(true);
         console.error(error);
