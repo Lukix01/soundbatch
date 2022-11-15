@@ -17,3 +17,11 @@ model Account {
   lastName  String
   password  String
 }
+
+model Sound {
+  id        Int    @id @default(autoincrement())
+  type      String
+  name      String
+  size      String
+  downloads Int
+}
