@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { NextRouter, useRouter } from 'next/router';
 import Input from './Input';
 
 function SignupIcon(): JSX.Element {
@@ -17,6 +18,8 @@ export default function Signup(): JSX.Element {
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
 
+  const router: NextRouter = useRouter();
+
   const Register: (event: any) => Promise<void> = async (event: any): Promise<void> => {
     event.preventDefault();
 
@@ -28,6 +31,7 @@ export default function Signup(): JSX.Element {
           username,
           password,
         });
+        router.push('/');
       } catch (error) {
         console.error(error);
       }
