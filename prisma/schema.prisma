@@ -11,17 +11,28 @@ datasource db {
 }
 
 model Account {
-  id        Int    @id @default(autoincrement())
-  username  String @unique
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
   firstName String
   lastName  String
   password  String
+  favorites Favorites[]
 }
 
 model Sound {
-  id        Int    @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   type      String
   name      String
   size      String
   downloads Int
+  accounts  Favorites[]
+}
+
+model Favorites {
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId Int
+  sound     Sound   @relation(fields: [soundId], references: [id])
+  soundId   Int
+
+  @@id([accountId, soundId])
 }
