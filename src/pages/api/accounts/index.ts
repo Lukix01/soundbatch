@@ -6,7 +6,7 @@ type ResponseData = {
   msg: string;
 };
 
-export default async function Handler(request: NextApiRequest, response: NextApiResponse<ResponseData>): Promise<void> {
+export default async function AccountsHandler(request: NextApiRequest, response: NextApiResponse<ResponseData>): Promise<void> {
   const { method, body, query } = request;
 
   switch (method) {
@@ -29,6 +29,9 @@ export default async function Handler(request: NextApiRequest, response: NextApi
         const account = await prisma.account.findUnique({
           where: {
             username: query.username,
+          },
+          include: {
+            favorites: true,
           },
         });
         if (account) {
