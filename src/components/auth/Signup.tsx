@@ -31,7 +31,7 @@ export default function Signup(): JSX.Element {
           username,
           password,
         });
-        router.push('/');
+        router.push('/login');
       } catch (error) {
         console.error(error);
       }
