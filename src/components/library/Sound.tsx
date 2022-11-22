@@ -8,10 +8,11 @@ interface Props {
   favorite?: boolean;
   size: string;
   downloads: number;
-  sessionUsername: any;
+  sessionUsername: string;
 }
 
 export default function Sound({ id, type, name, favorite, size, downloads, sessionUsername }: Props): JSX.Element {
+  // @todo - show favorite
   async function AddToFavorites(): Promise<void> {
     try {
       const response = await axios.post('/api/favorites', {
