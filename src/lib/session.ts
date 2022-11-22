@@ -28,3 +28,14 @@ export default function useSession(): {
   return { session, state };
 }
 
+type Session = {
+  isLogged: boolean;
+  username: string;
+  firstName: string;
+  lastName: string;
+};
+
+export function getSession(request: any): Session {
+  const session = JSON.parse(request.req.cookies.session);
+  return session;
+}
