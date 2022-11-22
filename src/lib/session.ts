@@ -14,7 +14,7 @@ export default function useSession(): {
   const [ session, setSession ] = useState({ isLogged: false, username: '', firstName: '', lastName: '' });
   const [ state, setState ] = useState('loading');
 
-  useEffect(() => {
+  useEffect((): void => {
     if (cookies.session) {
       setSession({ isLogged: cookies.session && true, username: cookies.session.username,
         firstName: cookies.session.firstName,
