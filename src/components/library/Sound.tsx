@@ -5,12 +5,13 @@ interface Props {
   id: number;
   type: string;
   name: string;
+  favorite?: boolean;
   size: string;
   downloads: number;
   sessionUsername: any;
 }
 
-export default function Sound({ id, type, name, size, downloads, sessionUsername }: Props): JSX.Element {
+export default function Sound({ id, type, name, favorite, size, downloads, sessionUsername }: Props): JSX.Element {
   async function AddToFavorites(): Promise<void> {
     try {
       const response = await axios.post('/api/favorites', {
@@ -41,7 +42,7 @@ export default function Sound({ id, type, name, size, downloads, sessionUsername
       </div>
       <div className='flex w-full h-6 my-auto text-gray-400 justify-end space-x-2'>
         <CloudArrowDownIcon className='cursor-pointer hover:text-gray-500' />
-        <StarIcon onClick={AddToFavorites} className='cursor-pointer favorite:text-gray-500 hover:text-gray-500' />
+        <StarIcon onClick={AddToFavorites} className={`cursor-pointer ${favorite && 'text-gray-500'} hover:text-gray-500`} />
         <SpeakerWaveIcon className='cursor-pointer hover:text-gray-500' />
       </div>
     </div>
