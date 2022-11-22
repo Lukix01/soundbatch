@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Sound from '../components/library/Sound';
 import useSession, { getSession } from '../lib/session';
 import { prisma } from '../lib/prisma';
+import Search from '../components/library/Search';
 
 export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Element {
   const { session, state } = useSession();
@@ -19,6 +20,7 @@ export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Elemen
   return (
     <div className='flex h-screen'>
       <div className='w-[28rem] m-auto space-y-4'>
+        <Search />
         {sounds.map((sound: any): JSX.Element =>
           <Sound
             key={sound.name}
