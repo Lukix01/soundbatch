@@ -36,6 +36,12 @@ type Session = {
 };
 
 export function getSession(request: any): Session {
-  const session = JSON.parse(request.req.cookies.session);
+  const cookie = request.req.cookies.session;
+  let session;
+
+  if (cookie) {
+    session = JSON.parse(cookie);
+  }
+
   return session;
 }
