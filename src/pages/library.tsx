@@ -10,17 +10,25 @@ export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Elemen
   const router: NextRouter = useRouter();
 
   // @todo - if account was deleted from database, check and validate this cookie
-  console.log(favoriteSounds);
   useEffect((): void => {
     if (!session.isLogged && state === 'loaded') {
       router.push('/login');
     }
   }, [ state ]);
+  console.log(favoriteSounds);
   return (
     <div className='flex h-screen'>
       <div className='w-[28rem] m-auto space-y-4'>
         {sounds.map((sound: any): JSX.Element =>
-          <Sound key={sound.name} id={sound.id} type={sound.type} name={sound.name} size={sound.size} downloads={sound.downloads} sessionUsername={session.username}/>,
+          <Sound
+            key={sound.name}
+            id={sound.id}
+            type={sound.type}
+            name={sound.name}
+            size={sound.size}
+            downloads={sound.downloads}
+            sessionUsername={session.username}
+          />,
         )}
       </div>
     </div>
@@ -32,27 +40,47 @@ export const getServerSideProps: (request: any) => Promise<{
       sounds: any;
       favoriteSounds: any;
   };
+} | {
+  props: {
+      sounds: any;
+      favoriteSounds?: undefined;
+  };
 }> = async (request: any): Promise<{
   props: {
       sounds: any;
       favoriteSounds: any;
   };
+} | {
+  props: {
+      sounds: any;
+      favoriteSounds?: undefined;
+  };
 }> => {
   const session = getSession(request);
+  let favoriteSounds;
 
-  const sounds = await prisma.sound.findMany();
-  const favoriteSounds = await prisma.account.findUnique({
-    where: {
-      username: session.username,
-    },
+  const sounds = await prisma.sound.findMany({
     include: {
-      favorites: true,
+      accounts: true,
     },
   });
-  return {
+  if (session) {
+    favoriteSounds = await prisma.account.findUnique({
+      where: {
+        username: session.username,
+      },
+      select: {
+        favorites: true,
+      },
+    });
+  }
+
+  return session ? {
     props: {
       sounds,
       favoriteSounds,
     },
+  } : {
+    props: { sounds },
   };
 };
