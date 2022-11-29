@@ -24,7 +24,7 @@ model Sound {
   type      Type        @relation(fields: [typeId], references: [id])
   name      String
   size      String
-  downloads Int
+  downloads Int         @default(0)
   accounts  Favorites[]
   typeId    Int
 }
