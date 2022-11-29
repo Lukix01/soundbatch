@@ -29,7 +29,7 @@ export default function Sound({ id, type, name, favorite, size, downloads, sessi
   return (
     <div className="bg-white px-6 py-4 rounded-xl border flex">
       <div>
-        <div className="text-slate-900 text-lg">{name}</div>
+        <div className="text-slate-900 text-lg w-max">{name}</div>
         <div className="flex space-x-2 text-gray-400 -mt-1 w-max">
           <div>{type}</div>
           <div className="w-0.5 h-0.5 rounded-full bg-gray-400 m-auto" />
