@@ -21,11 +21,18 @@ model Account {
 
 model Sound {
   id        Int         @id @default(autoincrement())
-  type      String
+  type      Type        @relation(fields: [typeId], references: [id])
   name      String
   size      String
   downloads Int
   accounts  Favorites[]
+  typeId    Int
+}
+
+model Type {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  sounds Sound[]
 }
 
 model Favorites {
