@@ -1,14 +1,20 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Type } from '@prisma/client';
 import Sound from '../components/library/Sound';
 import useSession, { getSession } from '../lib/session';
 import { prisma } from '../lib/prisma';
 import Search from '../components/library/Search';
+import Filter from '../components/library/Filter';
+import FilterMenu from '../components/library/filters/Menu';
 
-export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Element {
+export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any): JSX.Element {
   const { session, state } = useSession();
-  const [ query, setQuery ] = useState<string>('');
   const [ filteredSounds, setFilteredSounds ] = useState([]);
+
+  const [ query, setQuery ] = useState<string>('');
+  const [ filterMenu, setFilterMenu ] = useState<boolean>(false);
+
   const router: NextRouter = useRouter();
 
   // @todo - if account was deleted from database, check and validate this cookie
@@ -26,19 +32,27 @@ export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Elemen
 
   return (
     <div className='flex h-screen'>
-      <div className='w-[28rem] m-auto space-y-4'>
-        <Search onchange={(event): void => setQuery(event.target.value)}/>
-        {filteredSounds.map((sound: any): JSX.Element =>
-          <Sound
-            key={sound.name}
-            id={sound.id}
-            type={sound.type}
-            name={sound.name}
-            size={sound.size}
-            downloads={sound.downloads}
-            sessionUsername={session.username}
-          />,
+      <div className='w-[28rem] m-auto space-y-4 h-2/3'>
+        <div className='flex w-full space-x-2'>
+          <Search onchange={(event): void => setQuery(event.target.value)}/>
+          <Filter filterMenu={filterMenu} setFilterMenu={setFilterMenu} />
+        </div>
+        {filterMenu && (
+          <FilterMenu soundTypes={soundTypes} />
         )}
+        <div className='space-y-4 h-full overflow-auto'>
+          {filteredSounds.map((sound: any): JSX.Element =>
+            <Sound
+              key={sound.name}
+              id={sound.id}
+              type={sound.type.name}
+              name={sound.name}
+              size={sound.size}
+              downloads={sound.downloads}
+              sessionUsername={session.username}
+            />,
+          )}
+        </div>
       </div>
     </div>
   );
@@ -46,21 +60,25 @@ export default function LibraryPage({ sounds, favoriteSounds }: any): JSX.Elemen
 
 export const getServerSideProps: (request: any) => Promise<{
   props: {
+      soundTypes: Type[];
       sounds: any;
       favoriteSounds: any;
   };
 } | {
   props: {
+      soundTypes: Type[];
       sounds: any;
       favoriteSounds?: undefined;
   };
 }> = async (request: any): Promise<{
   props: {
+      soundTypes: Type[];
       sounds: any;
       favoriteSounds: any;
   };
 } | {
   props: {
+      soundTypes: Type[];
       sounds: any;
       favoriteSounds?: undefined;
   };
@@ -68,9 +86,12 @@ export const getServerSideProps: (request: any) => Promise<{
   const session = getSession(request);
   let favoriteSounds;
 
+  const soundTypes = await prisma.type.findMany();
+
   const sounds = await prisma.sound.findMany({
     include: {
       accounts: true,
+      type: true,
     },
   });
   if (session) {
@@ -86,10 +107,11 @@ export const getServerSideProps: (request: any) => Promise<{
 
   return session ? {
     props: {
+      soundTypes,
       sounds,
       favoriteSounds,
     },
   } : {
-    props: { sounds },
+    props: { soundTypes, sounds },
   };
 };
