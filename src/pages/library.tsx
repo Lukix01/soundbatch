@@ -47,6 +47,7 @@ export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any)
               id={sound.id}
               type={sound.type.name}
               name={sound.name}
+              extension={sound.extension}
               size={sound.size}
               downloads={sound.downloads}
               sessionUsername={session.username}

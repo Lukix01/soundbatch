@@ -4,7 +4,7 @@ import { Sound } from '@prisma/client';
 import { prisma } from '../src/lib/prisma';
 
 async function main(): Promise<void> {
-  const soundsPath: string[] = readdirSync(path.resolve(__dirname, '../sounds/'));
+  const soundsPath: string[] = readdirSync(path.resolve(__dirname, '../public/sounds/'));
 
   const types = [];
 
@@ -27,14 +27,16 @@ async function main(): Promise<void> {
   const sounds = [];
 
   for (const folder of soundsPath) {
-    const soundTypeFolder: string[] = readdirSync(path.resolve(__dirname, '../sounds/', folder));
+    const soundTypeFolder: string[] = readdirSync(path.resolve(__dirname, '../public/sounds/', folder));
 
     for (const soundFile of soundTypeFolder) {
+      const filePath: string = path.resolve(__dirname, '../public/sounds/', folder, soundFile);
       if (soundFile !== '.DS_Store') {
         sounds.push({
           typeId: getFromTypes(folder[0].toLocaleUpperCase() + folder.slice(1)).id,
           name: soundFile.slice(0, -4),
-          size: ((statSync(path.resolve(__dirname, '../sounds/', folder, soundFile)).size / 1_000_000)).toFixed(1) + ' MB',
+          extension: path.extname(filePath),
+          size: ((statSync(filePath).size / 1_000_000)).toFixed(1) + ' MB',
         });
       }
     }
