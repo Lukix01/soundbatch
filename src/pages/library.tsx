@@ -1,15 +1,14 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Type } from '@prisma/client';
-import Sound from '../components/library/Sound';
-import useSession, { getSession } from '../lib/session';
 import { prisma } from '../lib/prisma';
+import Sound from '../components/library/Sound';
 import Search from '../components/library/Search';
 import Filter from '../components/library/Filter';
 import FilterMenu from '../components/library/filters/Menu';
+import getSession from './api/getSession';
 
-export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any): JSX.Element {
-  const { session, state } = useSession();
+export default function LibraryPage({ session, soundTypes, sounds, favoriteSounds }: any): JSX.Element {
   const [ filteredSounds, setFilteredSounds ] = useState([]);
 
   const [ query, setQuery ] = useState<string>('');
@@ -17,12 +16,11 @@ export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any)
 
   const router: NextRouter = useRouter();
 
-  // @todo - if account was deleted from database, check and validate this cookie
   useEffect((): void => {
-    if (!session.isLogged && state === 'loaded') {
+    if (!session) {
       router.push('/login');
     }
-  }, [ state ]);
+  });
 
   useEffect((): void => {
     setFilteredSounds(sounds.filter((sound: any) =>
@@ -41,7 +39,7 @@ export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any)
           <FilterMenu soundTypes={soundTypes} />
         )}
         <div className='space-y-4 h-full overflow-auto'>
-          {filteredSounds.map((sound: any): JSX.Element =>
+          {session && filteredSounds.map((sound: any): JSX.Element =>
             <Sound
               key={sound.name}
               id={sound.id}
@@ -61,6 +59,7 @@ export default function LibraryPage({ soundTypes, sounds, favoriteSounds }: any)
 
 export const getServerSideProps: (request: any) => Promise<{
   props: {
+      session: any;
       soundTypes: Type[];
       sounds: any;
       favoriteSounds: any;
@@ -73,6 +72,7 @@ export const getServerSideProps: (request: any) => Promise<{
   };
 }> = async (request: any): Promise<{
   props: {
+      session: any;
       soundTypes: Type[];
       sounds: any;
       favoriteSounds: any;
@@ -84,7 +84,7 @@ export const getServerSideProps: (request: any) => Promise<{
       favoriteSounds?: undefined;
   };
 }> => {
-  const session = getSession(request);
+  const session = await getSession(request);
   let favoriteSounds;
 
   const soundTypes = await prisma.type.findMany();
@@ -108,6 +108,7 @@ export const getServerSideProps: (request: any) => Promise<{
 
   return session ? {
     props: {
+      session,
       soundTypes,
       sounds,
       favoriteSounds,
