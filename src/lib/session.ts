@@ -28,20 +28,3 @@ export default function useSession(): {
   return { session, state };
 }
 
-type Session = {
-  isLogged: boolean;
-  username: string;
-  firstName: string;
-  lastName: string;
-};
-
-export function getSession(request: any): Session {
-  const cookie = request.req.cookies.session;
-  let session;
-
-  if (cookie) {
-    session = JSON.parse(cookie);
-  }
-
-  return session;
-}
