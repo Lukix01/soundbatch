@@ -10,7 +10,6 @@ import getSession from './api/getSession';
 
 export default function LibraryPage({ session, soundTypes, sounds, favoriteSounds }: any): JSX.Element {
   const [ filteredSounds, setFilteredSounds ] = useState([]);
-
   const [ query, setQuery ] = useState<string>('');
   const [ filterMenu, setFilterMenu ] = useState<boolean>(false);
 
@@ -20,7 +19,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
     if (!session) {
       router.push('/login');
     }
-  });
+  }, []);
 
   useEffect((): void => {
     setFilteredSounds(sounds.filter((sound: any) =>
