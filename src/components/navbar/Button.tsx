@@ -12,7 +12,7 @@ export default function Button({ name, icon, path }: Props): JSX.Element {
   const router: NextRouter = useRouter();
 
   useEffect((): void => {
-    if (router.pathname.slice(1) === name) {
+    if (router.asPath.slice(1) === name) {
       setActive(true);
     }
   }, []);
