@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 interface Props {
   name: string;
   icon: JSX.Element;
+  path?: () => void;
 }
 
-export default function Button({ name, icon }: Props): JSX.Element {
+export default function Button({ name, icon, path }: Props): JSX.Element {
   const [ active, setActive ] = useState(false);
   const router: NextRouter = useRouter();
 
@@ -17,7 +18,10 @@ export default function Button({ name, icon }: Props): JSX.Element {
   }, []);
 
   return (
-    <div onClick={(): Promise<boolean> => router.push(name)} className={`w-6 hover:text-gray-500 ${active ? 'text-gray-500' : 'text-gray-400'} cursor-pointer`}>
+    <div
+      onClick={path ? path : (): Promise<boolean> => router.push('/' + name)}
+      className={`w-6 hover:text-gray-500 ${active ? 'text-gray-500' : 'text-gray-400'} cursor-pointer`}
+    >
       {icon}
     </div>
   );
