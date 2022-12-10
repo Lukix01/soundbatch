@@ -6,6 +6,7 @@ import Sound from '../components/library/Sound';
 import Search from '../components/library/Search';
 import Filter from '../components/library/Filter';
 import FilterMenu from '../components/library/filters/Menu';
+import Layout from '../components/Layout';
 import getSession from './api/getSession';
 
 export default function LibraryPage({ session, soundTypes, sounds, favoriteSounds }: any): JSX.Element {
@@ -28,31 +29,29 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
   }, [ query ]);
 
   return (
-    <div className='flex h-screen'>
-      <div className='w-[28rem] m-auto space-y-4 h-2/3'>
-        <div className='flex w-full space-x-2'>
-          <Search onchange={(event): void => setQuery(event.target.value)}/>
-          <Filter filterMenu={filterMenu} setFilterMenu={setFilterMenu} />
-        </div>
-        {filterMenu && (
-          <FilterMenu soundTypes={soundTypes} />
-        )}
-        <div className='space-y-4 h-full overflow-auto'>
-          {session && filteredSounds.map((sound: any): JSX.Element =>
-            <Sound
-              key={sound.name}
-              id={sound.id}
-              type={sound.type.name}
-              name={sound.name}
-              extension={sound.extension}
-              size={sound.size}
-              downloads={sound.downloads}
-              sessionUsername={session.username}
-            />,
-          )}
-        </div>
+    <Layout>
+      <div className='flex w-full space-x-2'>
+        <Search onchange={(event): void => setQuery(event.target.value)}/>
+        <Filter filterMenu={filterMenu} setFilterMenu={setFilterMenu} />
       </div>
-    </div>
+      {filterMenu && (
+        <FilterMenu soundTypes={soundTypes} />
+      )}
+      <div className='space-y-4 h-full overflow-auto'>
+        {session && filteredSounds.map((sound: any): JSX.Element =>
+          <Sound
+            key={sound.name}
+            id={sound.id}
+            type={sound.type.name}
+            name={sound.name}
+            extension={sound.extension}
+            size={sound.size}
+            downloads={sound.downloads}
+            sessionUsername={session.username}
+          />,
+        )}
+      </div>
+    </Layout>
   );
 }
 
