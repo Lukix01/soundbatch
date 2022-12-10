@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { Session } from '../types';
 
 export default function useSession(): {
   session: {
@@ -11,7 +12,7 @@ export default function useSession(): {
   state: string;
   } {
   const [ cookies ] = useCookies([ 'session' ]);
-  const [ session, setSession ] = useState({ isLogged: false, username: '', firstName: '', lastName: '' });
+  const [ session, setSession ] = useState<Session>({ isLogged: false, username: '', firstName: '', lastName: '' });
   const [ state, setState ] = useState('loading');
 
   useEffect((): void => {

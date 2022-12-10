@@ -1,4 +1,5 @@
 import { prisma } from '../lib/prisma';
+import { Session } from '../types';
 import Layout from '../components/Layout';
 import getSession from './api/getSession';
 
@@ -18,7 +19,7 @@ export default function ProfilePage({ account, session }: any): JSX.Element {
 export const getServerSideProps: (context: any) => Promise<{
   props: {
       account: any;
-      session: any;
+      session: Session;
   };
   redirect?: undefined;
 } | {
@@ -29,7 +30,7 @@ export const getServerSideProps: (context: any) => Promise<{
 }> = async (context: any): Promise<{
   props: {
       account: any;
-      session: any;
+      session: Session;
   };
   redirect?: undefined;
 } | {
@@ -44,7 +45,7 @@ export const getServerSideProps: (context: any) => Promise<{
     },
   });
 
-  let session = await getSession(context);
+  let session: Session = await getSession(context);
 
   session = session || null;
 

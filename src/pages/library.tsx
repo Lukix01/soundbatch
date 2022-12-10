@@ -29,7 +29,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
   }, [ query ]);
 
   return (
-    <Layout>
+    <Layout session={session}>
       <div className='flex w-full space-x-2'>
         <Search onchange={(event): void => setQuery(event.target.value)}/>
         <Filter filterMenu={filterMenu} setFilterMenu={setFilterMenu} />
