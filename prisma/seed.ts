@@ -16,6 +16,7 @@ async function main(): Promise<void> {
 
   await prisma.type.createMany({
     data: types,
+    skipDuplicates: true,
   });
 
   const soundTypes = await prisma.type.findMany();
@@ -44,6 +45,7 @@ async function main(): Promise<void> {
 
   await prisma.sound.createMany({
     data: sounds,
+    skipDuplicates: true,
   });
 }
 

@@ -22,7 +22,7 @@ model Account {
 model Sound {
   id        Int         @id @default(autoincrement())
   type      Type        @relation(fields: [typeId], references: [id])
-  name      String
+  name      String      @unique
   extension String
   size      String
   downloads Int         @default(0)

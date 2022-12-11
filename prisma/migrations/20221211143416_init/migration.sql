@@ -41,6 +41,9 @@ CREATE TABLE "Favorites" (
 CREATE UNIQUE INDEX "Account_username_key" ON "Account"("username");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Sound_name_key" ON "Sound"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Type_name_key" ON "Type"("name");
 
 -- AddForeignKey
