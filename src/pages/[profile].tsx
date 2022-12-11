@@ -17,7 +17,7 @@ export default function ProfilePage({ account, session }: any): JSX.Element {
           </div>
           <div className='mx-auto w-max text-gray-400'>{account.username}</div>
         </div>
-        <div className='h-0.5 bg-gray-200 my-4' />
+        <div className='h-0.5 bg-gray-200 my-6' />
         <div className='mb-1'>Favorite sounds</div>
         <div className='space-y-4'>
           {account.favorites.map((sound: any): JSX.Element =>
