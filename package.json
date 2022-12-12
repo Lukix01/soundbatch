@@ -4,7 +4,6 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "vercel-build": "prisma migrate deploy && next build",
         "db": "rm -rf ./prisma/migrations & npx prisma migrate dev --name init",
         "start": "next start",
         "lint": "next lint"
