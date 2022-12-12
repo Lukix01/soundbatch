@@ -40,7 +40,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
       <div className='space-y-4 h-full overflow-auto'>
         {session && filteredSounds.map((sound: any): JSX.Element =>
           <Sound
-            key={sound.name}
+            key={sound.id}
             id={sound.id}
             type={sound.type.name}
             name={sound.name}

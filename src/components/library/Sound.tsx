@@ -12,7 +12,16 @@ interface Props {
   sessionUsername: string;
 }
 
-export default function Sound({ id, type, name, extension, favorite, size, downloads, sessionUsername }: Props): JSX.Element {
+export default function Sound({
+  id,
+  type,
+  name,
+  extension,
+  favorite,
+  size,
+  downloads,
+  sessionUsername,
+}: Props): JSX.Element {
   // @todo - show favorite
   async function AddToFavorites(): Promise<void> {
     try {
@@ -29,7 +38,6 @@ export default function Sound({ id, type, name, extension, favorite, size, downl
 
   function PlaySound(): void {
     const sound = new Audio('sounds/' + type + '/' + name + extension);
-
     sound.play();
   }
 
