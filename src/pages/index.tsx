@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
 import Button from '../components/home/Button';
 
-export default function Home(): JSX.Element {
+export default function HomePage(): JSX.Element {
   return (
     <div className='flex h-screen'>
       <div className='m-auto z-10 text-white flex flex-col'>
