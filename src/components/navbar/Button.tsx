@@ -19,7 +19,7 @@ export default function Button({ name, icon, path }: Props): JSX.Element {
 
   return (
     <div
-      onClick={path ? path : (): Promise<boolean> => router.push('/' + name)}
+      onClick={path ? path : (): Promise<boolean> => router.push(name)}
       className={`w-6 hover:text-gray-500 ${active ? 'text-gray-500' : 'text-gray-400'} cursor-pointer`}
     >
       {icon}

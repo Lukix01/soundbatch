@@ -9,6 +9,7 @@ interface Props {
 
 export default function Navbar({ session }: Props): JSX.Element {
   const router: NextRouter = useRouter();
+
   return (
     <div className='flex mx-auto space-x-12'>
       <Button name="/" icon={<HomeIcon />} />
