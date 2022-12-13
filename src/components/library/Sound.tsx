@@ -24,7 +24,7 @@ export default function Sound({
 }: Props): JSX.Element {
   // @todo - show favorite
 
-  async function DownloadSound() {
+  async function DownloadSound(): Promise<void> {
     await axios.put('/api/sounds', {
       name,
     });
