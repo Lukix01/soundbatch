@@ -23,6 +23,13 @@ export default function Sound({
   sessionUsername,
 }: Props): JSX.Element {
   // @todo - show favorite
+
+  async function DownloadSound() {
+    await axios.put('/api/sounds', {
+      name,
+    });
+  }
+
   async function AddToFavorites(): Promise<void> {
     try {
       const response = await axios.post('/api/favorites', {
@@ -57,7 +64,7 @@ export default function Sound({
         </div>
       </div>
       <div className='flex w-full h-6 my-auto text-gray-400 justify-end space-x-2'>
-        <a href={`/sounds/${type}/${name + extension}`} download className='w-6'>
+        <a onClick={DownloadSound} href={`/sounds/${type}/${name + extension}`} download className='w-6'>
           <CloudArrowDownIcon className='cursor-pointer hover:text-gray-500' />
         </a>
         <StarIcon onClick={AddToFavorites} className={`cursor-pointer ${favorite && 'text-gray-500'} hover:text-gray-500`} />
