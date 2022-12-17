@@ -32,12 +32,11 @@ export default function Sound({
 
   async function AddToFavorites(): Promise<void> {
     try {
-      const response = await axios.post('/api/favorites', {
+      await axios.post('/api/favorites', {
         id,
         sessionUsername,
         name,
       });
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
