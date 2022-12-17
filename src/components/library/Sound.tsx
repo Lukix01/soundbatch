@@ -35,7 +35,6 @@ export default function Sound({
       await axios.post('/api/favorites', {
         id,
         sessionUsername,
-        name,
       });
     } catch (error) {
       console.error(error);
