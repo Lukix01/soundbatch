@@ -28,6 +28,14 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
     ));
   }, [ query ]);
 
+  function CheckFavoriteSound(id: number): true | undefined {
+    for (const favoriteSound of favoriteSounds.favorites) {
+      if (favoriteSound.soundId === id) {
+        return true;
+      }
+    }
+  }
+
   return (
     <Layout session={session}>
       <div className='flex w-full space-x-2'>
@@ -38,17 +46,19 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
         <FilterMenu soundTypes={soundTypes} />
       )}
       <div className='space-y-4 h-full overflow-auto'>
-        {session && filteredSounds.map((sound: any): JSX.Element =>
+        {session && filteredSounds.map((sound: any): JSX.Element => (
           <Sound
             key={sound.id}
             id={sound.id}
             type={sound.type.name}
             name={sound.name}
             extension={sound.extension}
+            favorite={CheckFavoriteSound(sound.id)}
             size={sound.size}
             downloads={sound.downloads}
             sessionUsername={session.username}
-          />,
+          />
+        ),
         )}
       </div>
     </Layout>
@@ -93,6 +103,7 @@ export const getServerSideProps: (request: any) => Promise<{
       type: true,
     },
   });
+
   if (session) {
     favoriteSounds = await prisma.account.findUnique({
       where: {
