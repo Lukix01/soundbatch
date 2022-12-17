@@ -1,5 +1,6 @@
 import { ArrowDownTrayIcon, CloudArrowDownIcon, StarIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
+import { useState } from 'react';
 
 interface Props {
   id: number;
@@ -22,7 +23,7 @@ export default function Sound({
   downloads,
   sessionUsername,
 }: Props): JSX.Element {
-  // @todo - show favorite
+  const [ isFavorite, setIsFavorite ] = useState(favorite);
 
   async function DownloadSound(): Promise<void> {
     await axios.put('/api/sounds', {
@@ -36,6 +37,7 @@ export default function Sound({
         id,
         sessionUsername,
       });
+      setIsFavorite(true);
     } catch (error) {
       console.error(error);
     }
@@ -65,7 +67,7 @@ export default function Sound({
         <a onClick={DownloadSound} href={`/sounds/${type}/${name + extension}`} download className='w-6'>
           <CloudArrowDownIcon className='cursor-pointer hover:text-gray-500' />
         </a>
-        <StarIcon onClick={AddToFavorites} className={`cursor-pointer ${favorite && 'text-gray-500'} hover:text-gray-500`} />
+        <StarIcon onClick={AddToFavorites} className={`cursor-pointer ${isFavorite && 'text-gray-500'} hover:text-gray-500`} />
         <SpeakerWaveIcon onClick={PlaySound} className='cursor-pointer hover:text-gray-500' />
       </div>
     </div>
