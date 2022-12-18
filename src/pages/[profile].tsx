@@ -26,6 +26,7 @@ export default function ProfilePage({ account, session }: any): JSX.Element {
             type={sound.sound.type.name}
             name={sound.sound.name}
             extension={sound.sound.extension}
+            favorite={true}
             size={sound.sound.size}
             downloads={sound.sound.downloads}
             sessionUsername={session.username}
