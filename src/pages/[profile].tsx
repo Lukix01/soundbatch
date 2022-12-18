@@ -9,30 +9,28 @@ import getSession from './api/getSession';
 export default function ProfilePage({ account, session }: any): JSX.Element {
   return (
     <Layout session={session}>
-      <div className='h-full'>
-        <div>
-          <div className='flex mx-auto w-max'>
-            <UserIcon className='w-6 mr-2 text-gray-400' />
-            <div className='text-2xl font-bold text-gray-500'>{account.firstName} {account.lastName}</div>
-          </div>
-          <div className='mx-auto w-max text-gray-400'>{account.username}</div>
+      <div>
+        <div className='flex mx-auto w-max'>
+          <UserIcon className='w-6 mr-2 text-gray-400' />
+          <div className='text-2xl font-bold text-gray-500'>{account.firstName} {account.lastName}</div>
         </div>
-        <div className='h-0.5 bg-gray-200 my-6' />
-        <div className='mb-1'>Favorite sounds</div>
-        <div className='space-y-4'>
-          {account.favorites.map((sound: any): JSX.Element =>
-            <Sound
-              key={sound.sound.id}
-              id={sound.sound.id}
-              type={sound.sound.type.name}
-              name={sound.sound.name}
-              extension={sound.sound.extension}
-              size={sound.sound.size}
-              downloads={sound.sound.downloads}
-              sessionUsername={session.username}
-            />,
-          )}
-        </div>
+        <div className='mx-auto w-max text-gray-400'>{account.username}</div>
+      </div>
+      <div className='h-0.5 bg-gray-200 my-6' />
+      <div className='mb-1'>Favorite sounds</div>
+      <div className='space-y-4 h-full overflow-auto'>
+        {account.favorites.map((sound: any): JSX.Element =>
+          <Sound
+            key={sound.sound.id}
+            id={sound.sound.id}
+            type={sound.sound.type.name}
+            name={sound.sound.name}
+            extension={sound.sound.extension}
+            size={sound.sound.size}
+            downloads={sound.sound.downloads}
+            sessionUsername={session.username}
+          />,
+        )}
       </div>
     </Layout>
   );
