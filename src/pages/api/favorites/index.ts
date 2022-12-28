@@ -34,14 +34,16 @@ export default async function FavoritesHandler(request: NextApiRequest, response
       return response.status(200).json({ msg: 'Successfully added sound to favorites!' });
     case 'DELETE':
       try {
-        await prisma.favorites.deleteMany({
-          where: {
-            soundId: body.id,
-            account: {
-              username: body.sessionUsername,
+        if (body.sessionUsername) {
+          await prisma.favorites.deleteMany({
+            where: {
+              soundId: body.id,
+              account: {
+                username: body.sessionUsername,
+              },
             },
-          },
-        });
+          });
+        }
       } catch (error) {
         console.error(error);
       }
