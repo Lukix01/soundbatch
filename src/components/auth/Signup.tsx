@@ -18,6 +18,8 @@ export default function Signup(): JSX.Element {
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
 
+  const [ usernameError, setUsernameError ] = useState<boolean>(false);
+
   const router: NextRouter = useRouter();
 
   const Register: (event: any) => Promise<void> = async (event: any): Promise<void> => {
@@ -34,6 +36,7 @@ export default function Signup(): JSX.Element {
         router.push('/login');
       } catch (error) {
         console.error(error);
+        setUsernameError(true);
       }
     }
   };
@@ -46,9 +49,12 @@ export default function Signup(): JSX.Element {
             <Input name="First name" value={firstName} onchange={(event: any): void => setFirstName(event.target.value)}/>
             <Input name="Last name" value={lastName} onchange={(event: any): void => setLastName(event.target.value)} />
           </div>
-          <div className='space-y-4'>
+          <div>
             <Input name="Username" value={username} onchange={(event: any): void => setUsername(event.target.value)}/>
-            <Input name="Password" type="password" value={password} onchange={(event: any): void => setPassword(event.target.value)}/>
+            {usernameError && <div className='text-red-500 text-sm mt-1'>Username already exists.</div> }
+            <div className='mt-4'>
+              <Input name="Password" type="password" value={password} onchange={(event: any): void => setPassword(event.target.value)}/>
+            </div>
           </div>
           <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
             <div className='flex m-auto'>
