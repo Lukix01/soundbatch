@@ -1,7 +1,7 @@
 import { ArrowDownTrayIcon, CloudArrowDownIcon, StarIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 
 interface Props {
   id: number;
@@ -26,7 +26,7 @@ export default function Sound({
 }: Props): JSX.Element {
   const [ isFavorite, setIsFavorite ] = useState(favorite);
 
-  const router = useRouter();
+  const router: NextRouter = useRouter();
 
   async function DownloadSound(): Promise<void> {
     await axios.put('/api/sounds', {
