@@ -102,6 +102,9 @@ export const getServerSideProps: (request: any) => Promise<{
       accounts: true,
       type: true,
     },
+    orderBy: {
+      downloads: 'desc',
+    },
   });
 
   if (session) {
