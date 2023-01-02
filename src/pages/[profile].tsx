@@ -6,7 +6,16 @@ import Layout from '../components/Layout';
 import Sound from '../components/library/Sound';
 import getSession from './api/getSession';
 
-export default function ProfilePage({ account, session }: any): JSX.Element {
+// @todo - log out button
+export default function ProfilePage({ favoriteSounds, account, session }: any): JSX.Element {
+  function CheckFavoriteSound(id: number): true | undefined {
+    for (const favoriteSound of favoriteSounds.favorites) {
+      if (favoriteSound.soundId === id) {
+        return true;
+      }
+    }
+  }
+
   return (
     <Layout session={session}>
       <div>
@@ -26,10 +35,10 @@ export default function ProfilePage({ account, session }: any): JSX.Element {
             type={sound.sound.type.name}
             name={sound.sound.name}
             extension={sound.sound.extension}
-            favorite={true}
+            favorite={session ? CheckFavoriteSound(sound.sound.id) : false}
             size={sound.sound.size}
             downloads={sound.sound.downloads}
-            sessionUsername={session.username}
+            sessionUsername={session?.username}
           />,
         )}
       </div>
@@ -38,6 +47,23 @@ export default function ProfilePage({ account, session }: any): JSX.Element {
 }
 
 export const getServerSideProps = async (context: any) => {
+  let session: Session = await getSession(context);
+
+  session = session || null;
+
+  let favoriteSounds = [];
+
+  if (session) {
+    favoriteSounds = await prisma.account.findUnique({
+      where: {
+        username: session.username,
+      },
+      select: {
+        favorites: true,
+      },
+    });
+  }
+
   const account: Account = await prisma.account.findUnique({
     where: {
       username: context.params.profile,
@@ -56,12 +82,9 @@ export const getServerSideProps = async (context: any) => {
     },
   });
 
-  let session: Session = await getSession(context);
-
-  session = session || null;
-
   return account ? {
     props: {
+      favoriteSounds,
       account,
       session,
     },
