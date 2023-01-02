@@ -35,14 +35,16 @@ export default function Sound({
   }
 
   async function AddToFavorites(): Promise<void> {
-    try {
-      await axios.post('/api/favorites', {
-        id,
-        sessionUsername,
-      });
-      setIsFavorite(true);
-    } catch (error) {
-      console.error(error);
+    if (sessionUsername) {
+      try {
+        await axios.post('/api/favorites', {
+          id,
+          sessionUsername,
+        });
+        setIsFavorite(true);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
