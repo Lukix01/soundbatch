@@ -13,7 +13,7 @@ function UnlockIcon(): JSX.Element {
 }
 
 export default function Login(): JSX.Element {
-  const [ cookies, setCookie ] = useCookies([ 'session' ]);
+  const [ _, setCookie ] = useCookies();
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
   const [ loginError, setLoginError ] = useState(false);
