@@ -1,13 +1,18 @@
 import { Account } from '@prisma/client';
 import { UserIcon } from '@heroicons/react/24/solid';
+import { NextRouter, useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
 import { prisma } from '../lib/prisma';
 import { Session } from '../types';
 import Layout from '../components/Layout';
 import Sound from '../components/library/Sound';
 import getSession from './api/getSession';
 
-// @todo - log out button
 export default function ProfilePage({ favoriteSounds, account, session }: any): JSX.Element {
+  const [ _, __, removeCookie ] = useCookies();
+
+  const router: NextRouter = useRouter();
+
   function CheckFavoriteSound(id: number): true | undefined {
     for (const favoriteSound of favoriteSounds.favorites) {
       if (favoriteSound.soundId === id) {
@@ -16,14 +21,20 @@ export default function ProfilePage({ favoriteSounds, account, session }: any): 
     }
   }
 
+  function Logout(): void {
+    removeCookie('session');
+  }
+
   return (
     <Layout session={session}>
       <div>
         <div className='flex mx-auto w-max'>
           <UserIcon className='w-6 mr-2 text-gray-400' />
-          <div className='text-2xl font-bold text-gray-500'>{account.firstName} {account.lastName}</div>
+          <div className='text-2xl font-bold text-gray-500'>{account.firstName} {account.lastName} <span className='text-gray-400'>({account.username})</span></div>
         </div>
-        <div className='mx-auto w-max text-gray-400'>{account.username}</div>
+        {router.asPath.slice(1) === session.username &&
+        <input onClick={Logout} type='submit' className='flex mx-auto px-12 py-1 text-sm mt-2 rounded-lg border cursor-pointer hover:bg-white transition' value='Log out'/>
+        }
       </div>
       <div className='h-0.5 bg-gray-200 my-6' />
       <div className='mb-1'>Favorite sounds</div>
