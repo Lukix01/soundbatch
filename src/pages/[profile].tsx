@@ -32,7 +32,7 @@ export default function ProfilePage({ favoriteSounds, account, session }: any): 
           <UserIcon className='w-6 mr-2 text-gray-400' />
           <div className='text-2xl font-bold text-gray-500'>{account.firstName} {account.lastName} <span className='text-gray-400'>({account.username})</span></div>
         </div>
-        {router.asPath.slice(1) === session.username &&
+        {router.asPath.slice(1) === session?.username &&
         <input onClick={Logout} type='submit' className='flex mx-auto px-12 py-1 text-sm mt-2 rounded-lg border cursor-pointer hover:bg-white transition' value='Log out'/>
         }
       </div>
