@@ -23,6 +23,7 @@ export default function ProfilePage({ favoriteSounds, account, session }: any): 
 
   function Logout(): void {
     removeCookie('session');
+    router.reload();
   }
 
   return (
