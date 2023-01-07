@@ -13,6 +13,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
   const [ filteredSounds, setFilteredSounds ] = useState([]);
   const [ query, setQuery ] = useState<string>('');
   const [ filterMenu, setFilterMenu ] = useState<boolean>(false);
+  const [ activeFilters, setActiveFilters ] = useState([]);
 
   const router: NextRouter = useRouter();
 
@@ -27,6 +28,12 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
       sound.name.toLowerCase().includes(query.toLowerCase()),
     ));
   }, [ query ]);
+
+  useEffect((): void => {
+    setFilteredSounds(sounds.filter((sound: any) =>
+      sound.type.name.includes(activeFilters),
+    ));
+  }, [ activeFilters ]);
 
   function CheckFavoriteSound(id: number): true | undefined {
     for (const favoriteSound of favoriteSounds.favorites) {
@@ -43,7 +50,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
         <Filter filterMenu={filterMenu} setFilterMenu={setFilterMenu} />
       </div>
       {filterMenu && (
-        <FilterMenu soundTypes={soundTypes} />
+        <FilterMenu soundTypes={soundTypes} setActiveFilters={setActiveFilters} activeFilters={activeFilters} />
       )}
       <div className='space-y-4 h-full overflow-auto'>
         {session && filteredSounds.map((sound: any): JSX.Element => (
