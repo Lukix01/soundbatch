@@ -13,7 +13,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
   const [ filteredSounds, setFilteredSounds ] = useState([]);
   const [ query, setQuery ] = useState<string>('');
   const [ filterMenu, setFilterMenu ] = useState<boolean>(false);
-  const [ activeFilters, setActiveFilters ] = useState([]);
+  const [ activeFilters, setActiveFilters ] = useState<string[]>([]);
 
   const router: NextRouter = useRouter();
 
