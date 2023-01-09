@@ -1,4 +1,4 @@
-export default function TutorialPage(): JSX.Element {
+export default function SamplesTutorialPage(): JSX.Element {
   return (
     <div className='flex h-screen'>
       <div className='z-10 m-auto '>
