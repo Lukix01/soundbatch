@@ -10,7 +10,7 @@ export default function HomePage(): JSX.Element {
         <div className='text-white text-xl text-opacity-50 mt-1'>Free to use library with samples to make good music</div>
         <div className='mt-6 flex mx-auto space-x-4'>
           <Button name='Get started' icon={<ArrowRightIcon/>} href='library' focused/>
-          <Button name='Creating samples' icon={<ArrowRightIcon/>} href='tutorial'/>
+          <Button name='Tutorials' icon={<ArrowRightIcon/>} href='tutorials'/>
         </div>
       </div>
       <div className='bg-black absolute w-screen h-screen'/>
