@@ -71,6 +71,16 @@ export default function Sound({
     }
   }
 
+  function PlaySound(): void {
+    activeSound?.pause();
+
+    if (activeSound) {
+      activeSound.currentTime = 0;
+    }
+
+    setActiveSound(sound);
+  }
+
   useEffect((): void => {
     if (sound && sound === activeSound) {
       sound.play();
@@ -97,10 +107,7 @@ export default function Sound({
           <CloudArrowDownIcon className='cursor-pointer hover:text-gray-500' />
         </a>
         <StarIcon onClick={!isFavorite ? AddToFavorites : RemoveFromFavorites} className={`cursor-pointer ${isFavorite && 'text-gray-500'} hover:text-gray-500`} />
-        <SpeakerWaveIcon onClick={(): void => {
-          activeSound?.pause();
-          setActiveSound(sound);
-        }} className='cursor-pointer hover:text-gray-500' />
+        <SpeakerWaveIcon onClick={PlaySound} className='cursor-pointer hover:text-gray-500' />
       </div>
     </div>
   );
