@@ -7,7 +7,7 @@ export default function HomePage(): JSX.Element {
     <div className='flex h-screen'>
       <div className='m-auto z-10 text-white flex flex-col'>
         <div className='text-5xl text-center font-bold'>SoundBatch</div>
-        <div className='text-white text-xl text-opacity-50 mt-1'>Free to use library with samples to make good music</div>
+        <div className='text-white text-xl text-opacity-50 mt-1'>Free to use library with samples to make good music.</div>
         <div className='mt-6 flex mx-auto space-x-4'>
           <Button name='Get started' icon={<ArrowRightIcon/>} href='library' focused/>
           <Button name='Tutorials' icon={<ArrowRightIcon/>} href='tutorials'/>
