@@ -1,6 +1,6 @@
 interface Props {
   filterMenu: boolean;
-  setFilterMenu: any;
+  setFilterMenu: (filterMenu: boolean) => void;
 }
 
 export default function Filter({ filterMenu, setFilterMenu }: Props): JSX.Element {
