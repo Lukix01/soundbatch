@@ -1,6 +1,6 @@
 import { ArrowDownTrayIcon, CloudArrowDownIcon, StarIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NextRouter, useRouter } from 'next/router';
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
   size: string;
   downloads: number;
   sessionUsername: string;
+  activeSound: any;
+  setActiveSound: (sound: any) => void;
 }
 
 export default function Sound({
@@ -23,8 +25,11 @@ export default function Sound({
   size,
   downloads,
   sessionUsername,
+  activeSound,
+  setActiveSound,
 }: Props): JSX.Element {
   const [ isFavorite, setIsFavorite ] = useState(favorite);
+  const [ sound ] = useState(typeof Audio !== 'undefined' && new Audio('sounds/' + type + '/' + name + extension));
 
   const router: NextRouter = useRouter();
 
@@ -66,10 +71,11 @@ export default function Sound({
     }
   }
 
-  function PlaySound(): void {
-    const sound = new Audio('sounds/' + type + '/' + name + extension);
-    sound.play();
-  }
+  useEffect((): void => {
+    if (sound && sound === activeSound) {
+      sound.play();
+    }
+  }, [ activeSound ]);
 
   return (
     <div className="bg-white px-6 py-4 rounded-xl border flex">
@@ -91,7 +97,10 @@ export default function Sound({
           <CloudArrowDownIcon className='cursor-pointer hover:text-gray-500' />
         </a>
         <StarIcon onClick={!isFavorite ? AddToFavorites : RemoveFromFavorites} className={`cursor-pointer ${isFavorite && 'text-gray-500'} hover:text-gray-500`} />
-        <SpeakerWaveIcon onClick={PlaySound} className='cursor-pointer hover:text-gray-500' />
+        <SpeakerWaveIcon onClick={(): void => {
+          activeSound?.pause();
+          setActiveSound(sound);
+        }} className='cursor-pointer hover:text-gray-500' />
       </div>
     </div>
   );

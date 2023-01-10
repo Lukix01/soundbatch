@@ -2,6 +2,7 @@ import { Account } from '@prisma/client';
 import { UserIcon } from '@heroicons/react/24/solid';
 import { NextRouter, useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
+import { useState } from 'react';
 import { prisma } from '../lib/prisma';
 import { Session } from '../types';
 import Layout from '../components/Layout';
@@ -10,6 +11,7 @@ import getSession from './api/getSession';
 
 export default function ProfilePage({ favoriteSounds, account, session }: any): JSX.Element {
   const [ _, __, removeCookie ] = useCookies();
+  const [ activeSound, setActiveSound ] = useState(null);
 
   const router: NextRouter = useRouter();
 
@@ -51,6 +53,8 @@ export default function ProfilePage({ favoriteSounds, account, session }: any): 
             size={sound.sound.size}
             downloads={sound.sound.downloads}
             sessionUsername={session?.username}
+            activeSound={activeSound}
+            setActiveSound={setActiveSound}
           />,
         )}
       </div>

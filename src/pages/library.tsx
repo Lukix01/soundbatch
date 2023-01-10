@@ -14,6 +14,7 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
   const [ query, setQuery ] = useState<string>('');
   const [ filterMenu, setFilterMenu ] = useState<boolean>(false);
   const [ activeFilters, setActiveFilters ] = useState<string[]>([]);
+  const [ activeSound, setActiveSound ] = useState(null);
 
   const router: NextRouter = useRouter();
 
@@ -64,6 +65,8 @@ export default function LibraryPage({ session, soundTypes, sounds, favoriteSound
             size={sound.size}
             downloads={sound.downloads}
             sessionUsername={session.username}
+            activeSound={activeSound}
+            setActiveSound={setActiveSound}
           />
         ),
         )}
