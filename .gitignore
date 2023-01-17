@@ -16,6 +16,7 @@
 /build
 
 
+package-lock.json
 
 .env
 
