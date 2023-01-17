@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../../lib/prisma';
-const bcrypt = require('bcrypt');
+const CryptoJS = require('crypto-js');
 
 type ResponseData = {
   msg: string;
@@ -16,7 +16,7 @@ export default async function AccountsHandler(request: NextApiRequest, response:
           username: body.username,
           firstName: body.firstName,
           lastName: body.lastName,
-          password: await bcrypt.hash(body.password, 10),
+          password: CryptoJS.AES.encrypt(body.password, process.env.SECRET_KEY).toString(),
         } });
       } catch (error) {
         console.error(error);
@@ -36,7 +36,10 @@ export default async function AccountsHandler(request: NextApiRequest, response:
           },
         });
         if (account) {
-          const validation = await bcrypt.compare(query.password, account.password);
+          const decryptedPassword: string = CryptoJS.AES.decrypt(account.password, process.env.SECRET_KEY).toString(CryptoJS.enc.Utf8);
+
+          const validation: boolean = decryptedPassword === query.password;
+
           if (validation) {
             response.status(200).json(account);
           } else {
