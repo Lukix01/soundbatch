@@ -1,5 +1,5 @@
 {
-    "name": "sound-batch",
+    "name": "soundbatch",
     "private": true,
     "scripts": {
         "dev": "next dev",
