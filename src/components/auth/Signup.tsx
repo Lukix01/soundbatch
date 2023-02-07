@@ -65,7 +65,7 @@ export default function Signup(): JSX.Element {
         </form>
         <div className='text-sm m-auto mt-2 text-gray-500 group cursor-pointer w-max'>Or
           <Link href="/login">
-            <span className='font-bold group-hover:underline underline-offset-4'> login to an existing account</span>
+            <span className='font-bold group-hover:underline'> login to an existing account</span>
           </Link>
         </div>
       </div>
