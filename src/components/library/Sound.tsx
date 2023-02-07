@@ -72,13 +72,15 @@ export default function Sound({
   }
 
   function PlaySound(): void {
-    activeSound?.pause();
-
     if (activeSound) {
       activeSound.currentTime = 0;
+      activeSound.pause();
+      setActiveSound(null);
     }
 
-    setActiveSound(sound);
+    if (activeSound !== sound) {
+      setActiveSound(sound);
+    }
   }
 
   useEffect((): void => {
