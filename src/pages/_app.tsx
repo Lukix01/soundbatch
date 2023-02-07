@@ -7,6 +7,7 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
     <>
       <Head>
         <title>SoundBatch</title>
+        <link rel="shortcut icon" href="/logo.png" />
       </Head>
       <Component {...pageProps} />
     </>
