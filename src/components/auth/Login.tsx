@@ -41,7 +41,7 @@ export default function Login(): JSX.Element {
         </div>
         {loginError && <div className='text-red-500 text-sm mt-1'>Incorrect username or password.</div> }
         <button className='bg-gray-500 p-2.5 text-white rounded-lg w-full mt-8 flex hover:bg-gray-600 transition group'>
-          <div className='flex m-auto '>
+          <div className='flex m-auto'>
             <LockOpenIcon className='w-4 opacity-70 group-hover:opacity-100 '/>
             <div className='ml-2 m-auto'>Sign In</div>
           </div>
