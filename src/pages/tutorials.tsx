@@ -12,7 +12,7 @@ export default function TutorialsPage(): JSX.Element {
           <TutorialButton name='Making beat' selectedTutorial={selectedTutorial} setSelectedTutorial={setSelectedTutorial} />
         </div>
         <video key={selectedTutorial} controls width={800} className='border-8' >
-          <source src={selectedTutorial === 'Creating samples' ? '/creating_samples_tutorial.mov' : '/making_beat_tutorial.mov'} />
+          <source src={selectedTutorial === 'Creating samples' ? '/tutorials/creating_samples_tutorial.mov' : '/tutorials/making_beat_tutorial.mov'} />
         </video>
       </div>
     </div>
