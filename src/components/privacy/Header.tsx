@@ -1,5 +1,9 @@
-export default function Header(props: React.PropsWithChildren): JSX.Element {
+interface Props {
+  children: string;
+}
+
+export default function Header({ children }: Props): JSX.Element {
   return (
-    <div className="font-bold text-xl">{props.children}</div>
+    <div className="font-bold text-xl">{children}</div>
   );
 }
