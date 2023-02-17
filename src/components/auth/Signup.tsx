@@ -64,10 +64,13 @@ export default function Signup(): JSX.Element {
           </button>
         </form>
         <div className='text-sm m-auto mt-2 text-gray-500 group cursor-pointer w-max'>Or
-          <Link href="/login">
+          <Link href='/login'>
             <span className='font-bold group-hover:underline'> login to an existing account</span>
           </Link>
         </div>
+        <Link href='/privacy'>
+          <div className='text-sm m-auto w-max mt-2 text-gray-500 cursor-pointer hover:underline'>Privacy policy</div>
+        </Link>
       </div>
     </div>
   );
