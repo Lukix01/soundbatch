@@ -1,9 +1,10 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { NextRouter, useRouter } from 'next/router';
-import { useState } from 'react';
+import { createRef, RefObject, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { LockOpenIcon } from '@heroicons/react/24/solid';
+import ReCAPTCHA from 'react-google-recaptcha';
 import Input from './Input';
 
 export default function Login(): JSX.Element {
@@ -11,10 +12,25 @@ export default function Login(): JSX.Element {
   const [ username, setUsername ] = useState<string>('');
   const [ password, setPassword ] = useState<string>('');
   const [ loginError, setLoginError ] = useState(false);
+  const [ recaptchaValid, setRecaptchaValid ] = useState(false);
+
   const router: NextRouter = useRouter();
+
+  const recaptchaReference: RefObject<any> = createRef();
+
+  const onReCAPTCHAChange: (captchaCode: string | null) => void = (captchaCode: string | null): void => {
+    if (!captchaCode) {
+      return;
+    }
+
+    setRecaptchaValid(true);
+
+    recaptchaReference.current.reset();
+  };
 
   const SignIn: (event: any) => Promise<void> = async (event: any): Promise<void> => {
     event.preventDefault();
+
     if (username && password) {
       try {
         const response = await axios.get('/api/accounts', {
@@ -23,8 +39,12 @@ export default function Login(): JSX.Element {
             password,
           },
         });
-        setCookie('session', { username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName }, { path: '/' });
-        router.push('/library');
+        if (!recaptchaValid) {
+          recaptchaReference.current.execute();
+        } else {
+          setCookie('session', { username: response.data.username, firstName: response.data.firstName, lastName: response.data.lastName }, { path: '/' });
+          router.push('/library');
+        }
       } catch (error) {
         setLoginError(true);
         console.error(error);
@@ -46,6 +66,14 @@ export default function Login(): JSX.Element {
             <div className='ml-2 m-auto'>Sign In</div>
           </div>
         </button>
+        <div className='mt-2'>
+          <ReCAPTCHA
+            ref={recaptchaReference}
+            size='invisible'
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+            onChange={onReCAPTCHAChange}
+          />
+        </div>
         <div className='text-sm m-auto mt-2 text-gray-500 group cursor-pointer w-max'>Or
           <Link href="/signup">
             <span className='font-bold group-hover:underline underline-offset-4'> create a new account</span>
