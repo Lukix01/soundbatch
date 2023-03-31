@@ -15,8 +15,6 @@
 # production
 /build
 
-/public/tutorials
-
 package-lock.json
 
 .env

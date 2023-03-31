@@ -11,9 +11,13 @@ export default function TutorialsPage(): JSX.Element {
           <TutorialButton name='Creating samples' selectedTutorial={selectedTutorial} setSelectedTutorial={setSelectedTutorial} />
           <TutorialButton name='Making beat' selectedTutorial={selectedTutorial} setSelectedTutorial={setSelectedTutorial} />
         </div>
-        <video key={selectedTutorial} controls width={800} className='border-8' >
-          <source src={selectedTutorial === 'Creating samples' ? '/tutorials/creating_samples_tutorial.mov' : '/tutorials/making_beat_tutorial.mov'} />
-        </video>
+        <iframe
+          width='768'
+          height='438'
+          allowFullScreen
+          src={selectedTutorial === 'Creating samples' ? 'https://www.youtube.com/embed/TOqfrLptxWU?autoplay=1' : 'https://www.youtube.com/embed/vaPtlPteQVg?autoplay=1'}
+          className='border-8'
+        />
       </div>
     </div>
   );
