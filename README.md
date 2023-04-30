@@ -16,6 +16,7 @@ Website is not completely finished so you can expect a few more fixes in the fut
 
 ```
 $ npm install
+$ npx prisma db seed
 $ npm run build
 $ npm start
 ```
